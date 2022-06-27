@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/> 
+    <title>Визитка</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384 r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+</head>
+    
+<body>
+      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+          <h5 class="my-0 mr-md-auto font-weight-normal">Название компании</h5>
+          <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" href="/">Главная</a>
+                <a class="p-2 text-dark" href="/services">Услуги</a>
+                <a class="p-2 text-dark" href="/news">Новости</a>
+                <a class="p-2 text-dark" href="/reviews">Отзывы</a>
+                <a class="p-2 text-dark" href="/contacts">Контакты</a>
+				<a class="btn btn-outline-primary" href="#">Войти</a>
+				<a class="btn btn-outline-primary" href="#">Регистрация</a>
+          </nav>    
+    </div>
+	
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-10 mb-3 bg-white border-bottom shadow-sm">
+		<div>
+			<p>
+				<label for="localdate">Дата от: </label>
+				<input type="datetime-local" id="localdate" name="start_date"/ value="{{start_date|date:"d/m/Y"}}">
+			</p>
+			<p>
+				<label for="localdate">Дата до: </label>
+				<input type="datetime-local" id="localdate" name="end_date"/ value="{{end_date|date:"d/m/Y"}}">
+			</p>
+		</div>
+		<div>
+			<div class="card mb-4 shadow-sm">
+				<a class="btn btn-outline-primary" href="news">Фитровать</a>
+			</div>
+		</div>
+	</div>
+	
+	{% if news %}
+			{% for el in news %}
+				<div class="card mb-4 shadow-sm">
+					<a class="p-2 text-dark" href="{{el.get_absolute_url}}"><h3>{{el.title}}</h3></a>
+					<p class="p-2 text-dark">{{el.time_create}}</p>
+					<p >{{el.description}}</p>
+					{% if el.image %}
+						<img src="{{ el.image.url }}" width="400" height="300">
+					{% else %}
+						<p> Нет изображения! </p>	
+					{% endif %}
+				</div>
+			{% endfor %}
+		{% else %}
+			Новых новостей нет
+	{% endif %}
+</body>
+</html>
