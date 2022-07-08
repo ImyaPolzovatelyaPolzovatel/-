@@ -15,8 +15,13 @@
                 <a class="p-2 text-dark" href="/news">Новости</a>
                 <a class="p-2 text-dark" href="/reviews">Отзывы</a>
                 <a class="p-2 text-dark" href="/contacts">Контакты</a>
-				<a class="btn btn-outline-primary" href="#">Войти</a>
-				<a class="btn btn-outline-primary" href="#">Регистрация</a>
+			    {% if request.user.is_authenticated %}
+			  		{{user.username}}
+			  		<a class="btn btn-outline-primary" href="/logout">Выйти</a>
+			  	{% else %}
+					<a class="btn btn-outline-primary" href="/login">Войти</a>
+					<a class="btn btn-outline-primary" href="/register">Регистрация</a>
+			  	{% endif %}
           </nav>    
     </div>
 	
@@ -26,7 +31,7 @@
 				<h2 class="text-center">Новости</h2>
 				{% if news %}
 					{% for el in news %}
-						<h3>{{el.title}}</h3>
+						<a class="p-2 text-dark" href="{{el.get_absolute_url}}"><h3>{{el.title}}</h3></a>
 						<p class="p-2 text-dark">{{el.time_create}}</p>
 						{{el.description}}
 						{% if el.image %}
@@ -44,8 +49,52 @@
 		<div class="col">
 			<div class="card mb-4 shadow-sm">
 				<h2 class="text-center">Услуги</h2>
+				{% if product %}
+					{% for el in product %}
+						<a class="p-2 text-dark" href="{{el.get_absolute_url}}"><h3>{{el.title}}</h3></a>
+						<p class="p-2 text-dark">{{el.content}}</p>
+						<p class="p-2 text-dark">Характеристики: {{el.сharacteristics}}</p>
+						<p class="p-2 text-dark">Цена: {{el.price}}</p>
+						{% if el.image %}
+							<img src="{{ el.image.url }}" width="400" height="300">
+						{% else %}
+							<p> Нет изображения! </p>
+						{% endif %}
+					{% endfor %}
+				{% else %}
+					Новых услуг нет
+				{% endif %}
 			</div>
 		</div>
 	</div>
+
+	<footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+      <div class="col-6 col-md">
+        <h5>Новости</h5>
+		{% for el in footer_news %}
+			<ul class="list-unstyled text-small">
+			  <li><a class="link-secondary" href="{{el.get_absolute_url}}">{{el.title}}</a></li>
+			</ul>
+		{% endfor %}
+      </div>
+      <div class="col-6 col-md">
+        <h5>Услуги</h5>
+        {% for el in footer_services %}
+			<ul class="list-unstyled text-small">
+			  <li><a class="link-secondary" href="{{el.get_absolute_url}}">{{el.title}}</a></li>
+			</ul>
+		{% endfor %}
+      </div>
+      <div class="col-6 col-md">
+        <h5>Категории</h5>
+        {% for el in categories_on_footer %}
+			<ul class="list-unstyled text-small">
+			  <li><a class="link-secondary" href="{{el.get_absolute_url}}">{{el.name}}</a></li>
+			</ul>
+		{% endfor %}
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

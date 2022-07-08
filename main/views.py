@@ -1,46 +1,71 @@
-from django.shortcuts import render, get_object_or_404
-from .models import *
-
+from django.contrib.auth import logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
+from news.models import *
+from services.models import *
 
 # Create your views here.
-def main(request):
-    _news = modelNews.objects.order_by('-id')[:3]
-    return render(request, 'main/main.html', {'news': _news})
+class main(ListView):
+    template_name = 'main/main.html'
 
-    
-def services(request):
-    _category = modelСategory.objects.all()
-    _action = modelAction.objects.all()
-    _product = modelProduct.objects.all()
-    return render(request, 'main/services.html', {'category': _category, 'action': _action, 'product': _product})
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(main, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'news': modelNews.objects.filter(deleted=False).filter(show_on_manepage=True).order_by('-id')[:3],
+                'product': modelProduct.objects.filter(deleted=False).filter(show_on_manepage=True).order_by('-id')[:3],
+                'footer_news': modelNews.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id'),
+                'categories_on_footer': modelСategory.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id'),
+                'footer_services': modelProduct.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id')
+            }
+        )
+        return context
 
-
-def categoryInfo(request, сategory_slug):
-    _category = get_object_or_404(modelСategory, slug=сategory_slug)
-    return render(request, 'main/categoryInfo.html', {'category': _category})
-
-
-def productInfo(request, product_slug):
-    _product = get_object_or_404(modelProduct, slug=product_slug)
-    return render(request, 'main/productInfo.html', {'product': _product})
+    def get_queryset(self):
+        pass
 
 
-def news(request):
-    _news = modelNews.objects.all()
-    #start_date = request.GET.get('start_date')
-    #end_date = request.GET.get('end_date')
-    #print(start_date)
-    return render(request, 'main/news.html', {'news': _news})
+class RegisterUser(CreateView):
+    form_class = UserCreationForm
+    template_name = 'main/register.html'
+
+    def get_success_url(self):
+        return reverse_lazy('login')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(RegisterUser, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'footer_news': modelNews.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id'),
+                'categories_on_footer': modelСategory.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id'),
+                'footer_services': modelProduct.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id')
+            }
+        )
+        return context
 
 
-def newsInfo(request, post_slug):
-    _news = get_object_or_404(modelNews, slug=post_slug)
-    return render(request, 'main/newsInfo.html', {'news': _news})
+class LoginUser(LoginView):
+    form_class = AuthenticationForm
+    template_name = 'main/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(LoginUser, self).get_context_data(**kwargs)
+        context.update(
+            {
+                'footer_news': modelNews.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id'),
+                'categories_on_footer': modelСategory.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id'),
+                'footer_services': modelProduct.objects.filter(deleted=False).filter(show_on_footer=True).order_by('-id')
+            }
+        )
+        return context
+
+    def get_success_url(self):
+        return reverse_lazy('main')
 
 
-def reviews(request):
-    return render(request, 'main/reviews.html')
-
-
-def contacts(request):
-    return render(request, 'main/contacts.html')
+def logout_user(request):
+    logout(request)
+    return redirect('login')
