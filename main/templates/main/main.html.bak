@@ -15,11 +15,17 @@
                 <a class="p-2 text-dark" href="/news">Новости</a>
                 <a class="p-2 text-dark" href="/reviews">Отзывы</a>
                 <a class="p-2 text-dark" href="/contacts">Контакты</a>
+<<<<<<< HEAD
 				<a class="btn btn-outline-primary" href="#">Войти</a>
 				<a class="btn btn-outline-primary" href="#">Регистрация</a>
           </nav>    
     </div>
 	
+=======
+          </nav>
+          <a class="btn btn-outline-primary" href="#">Войти</a>
+    </div>
+>>>>>>> b0a1118 (First commit)
 	<div class="row row-cols-1 row-cols-md-2 mb-2">
 		<div class="col">
 			<div class="card mb-4 shadow-sm">
@@ -27,12 +33,18 @@
 				{% if news %}
 					{% for el in news %}
 						<h3>{{el.title}}</h3>
+<<<<<<< HEAD
 						{{el.description}}
 						{% if el.image %}
 							<img src="{{ el.image.url }}" width="400" height="300">
 						{% else %}
 							<p> Нет изображения! </p>	
 						{% endif %}
+=======
+						{{el.descriptionShort}}
+						{{ el.image }}
+						<p><img src="C:/Users/safro/card/{{ el.image }}"></p>
+>>>>>>> b0a1118 (First commit)
 					{% endfor %}
 				{% else %}
 					Новых новостей нет

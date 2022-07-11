@@ -15,6 +15,7 @@
                 <a class="p-2 text-dark" href="/news">Новости</a>
                 <a class="p-2 text-dark" href="/reviews">Отзывы</a>
                 <a class="p-2 text-dark" href="/contacts">Контакты</a>
+<<<<<<< HEAD
 				<a class="btn btn-outline-primary" href="#">Войти</a>
 				<a class="btn btn-outline-primary" href="#">Регистрация</a>
           </nav>    
@@ -54,5 +55,20 @@
 		{% else %}
 			Новых новостей нет
 	{% endif %}
+=======
+          </nav>
+          <a class="btn btn-outline-primary" href="#">Войти</a>
+		  
+      </div>
+	   {% if news %}
+			{% for el in news %}
+				<h3>{{el.title}}</h3>
+				{{el.descriptionShort}}
+				<p><img src="{{ el.image }}"></p>
+			{% endfor %}
+		{% else %}
+			Новых новостей нет
+		{% endif %}
+>>>>>>> b0a1118 (First commit)
 </body>
 </html>
