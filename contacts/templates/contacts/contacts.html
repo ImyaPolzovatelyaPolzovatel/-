@@ -24,7 +24,17 @@
 			  	{% endif %}
           </nav>    
     </div>
-	
+    <div>
+        <p>
+            Наш mail - django_test@inbox.ru
+        </p>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Отправить</button>
+    </form>
+
 	<footer class="pt-4 my-md-5 pt-md-5 border-top">
     <div class="row">
       <div class="col-6 col-md">
