@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mptt',
+    'captcha',
     'main.apps.MainConfig',
     'services.apps.ServicesConfig',
     'news.apps.NewsConfig',
@@ -141,3 +142,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = f'{BASE_DIR}/media'
 MEDIA_URL = '/media/'
+
+
+#smtp
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = "django_test@inbox.ru"
+EMAIL_HOST_PASSWORD = "Y3DlZrBayzETi2eqqa6J"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
